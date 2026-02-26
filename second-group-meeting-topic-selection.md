@@ -113,7 +113,7 @@ Since difficulty tier doesn't affect scoring, the ideal topic is:
 
 **Reference:** [OpenAI Deep Double Descent](https://openai.com/index/deep-double-descent/) + [detailed paper](https://iopscience.iop.org/article/10.1088/1742-5468/ac3a74)
 
-  **Why it's #1:**
+**Why it's #1:**
 
 - **1(b) Critical Thinking:** The paper challenges classical ML wisdom (bias-variance tradeoff breaks down in overparameterized models). A paper that *challenges a known idea* gives a natural structure to critique: what assumptions does it rely on? When does the argument break? Does it always hold? Much easier to generate "original insights" compared to a paper that just presents an algorithm.
 - **1(c) Contextual Awareness:** Directly connects to the biggest question in modern ML: why do massively overparameterized deep networks generalize? Huge, relevant, ongoing research question. Broader impact is easy to articulate.
@@ -125,7 +125,7 @@ Since difficulty tier doesn't affect scoring, the ideal topic is:
 
 **Reference:** [Distill.pub — Why Momentum Really Works](https://distill.pub/2017/momentum/)
 
-  **Why it's #2 (and not Reconciling bias-variance):**
+**Why it's #2 (and not Reconciling bias-variance):**
 
 Reconciling bias-variance (arxiv 1812.11118) is very similar in flavour to double-descent — both are about "overparameterized models shouldn't work but they do." If the group rejects double-descent, it's likely because they don't want that type of topic. Pitching a near-duplicate wastes a pick.
 
@@ -139,7 +139,7 @@ Momentum GD is a **completely different kind of topic** — more visual, more al
 
 **Reference:** [arxiv 1812.11118](https://arxiv.org/abs/1812.11118)
 
-  **Why it's #3:**
+**Why it's #3:**
 
 Fallback if the group likes the direction of double-descent but wants a slightly different paper. Same strengths on criteria 1(b) and 1(c). But since it's so similar to #1, it's the backup rather than the alternative.
 
@@ -198,3 +198,4 @@ Similar strengths to double-descent and reconciling bias-variance — challenges
 <\!-- revision 32 -->
 <\!-- revision 33 -->
 <\!-- revision 34 -->
+<\!-- revision 35 -->
