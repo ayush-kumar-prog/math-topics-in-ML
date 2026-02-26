@@ -9,7 +9,7 @@ Group of 3 picks a reference paper (related to lectures but not covered in them)
 **Notification deadline:** 27th March
 **Presentation date:** 8th May
 
-– – –
+---
 
 ## How We're Graded (from How-To-Score-High PDF)
 
@@ -35,7 +35,7 @@ Group of 3 picks a reference paper (related to lectures but not covered in them)
    - (b) **Active Engagement** — treat questions as discussion; own up if you don't know
    - (c) **Team Readiness** — all members prepared to answer; collective understanding assessed
 
-– – –
+---
 
 ## What the Course Covers (OFF-LIMITS for the poster)
 
@@ -54,7 +54,7 @@ From the COMP34312 lecture notes, the course covers:
 
 The poster topic must be **related to but not covered in** the lectures.
 
-– – –
+---
 
 ## Topic Difficulty Tiers (from coursework spec)
 
@@ -68,7 +68,7 @@ The suggested references are labelled:
 
 **Our approach:** Go CORE. Maximize grade by picking a topic all 3 members can deeply master, not by picking something hard.
 
-– – –
+---
 
 ## Topic Analysis
 
@@ -105,7 +105,7 @@ Since difficulty tier doesn't affect scoring, the ideal topic is:
 **Causal ML:**
 - Requires learning substantially new concepts not in the course — more work for criterion 1(a) with no scoring benefit
 
-– – –
+---
 
 ## Our Rankings
 
@@ -149,12 +149,12 @@ Fallback if the group likes the direction of double-descent but wants a slightly
 
 Similar strengths to double-descent and reconciling bias-variance — challenges conventional wisdom, great for critical thinking, clear broader impact. A strong 4th option.
 
-– – –
+---
 
 ## Summary Table
 
 | Criterion | Double-Descent | Momentum GD | Reconciling B-V | Optimizers Survey |
-|– – –|---|---|---|---|
+|---|---|---|---|---|
 | 1(a) Understanding | Deep on one idea | Deep on one idea | Deep on one idea | Spread thin |
 | 1(b) Critical thinking | Strong — challenges assumptions | Weaker — less to critique | Strong — challenges assumptions | Compare/contrast only |
 | 1(c) Broader impact | Strong | Moderate | Strong | Strong |
@@ -180,3 +180,4 @@ Similar strengths to double-descent and reconciling bias-variance — challenges
 <\!-- revision 14 -->
 <\!-- revision 15 -->
 <\!-- revision 16 -->
+<\!-- revision 17 -->
