@@ -1,0 +1,433 @@
+% =====================================================================
+% Supplementary Document for the Deep Double Descent Poster
+% COMP34312 Coursework, Group: Ayush Kumar, Jacob Yip, Harshita Dassani
+%
+% Purpose: backs up every claim on the poster.
+%   1. Every equation derived or sourced.
+%   2. Every reference annotated with what we use from it.
+%   3. Critical-thinking reasoning chains for likely Q&A.
+%
+% NOT for submission. For internal group review and Q&A rehearsal.
+% Compile: pdflatex supplementary.tex
+% =====================================================================
+\documentclass[11pt,a4paper]{article}
+
+\usepackage[margin=2.2cm]{geometry}
+\usepackage{amsmath,amssymb,amsthm,bm,mathtools}
+\usepackage{xcolor}
+\usepackage[hidelinks]{hyperref}
+\usepackage{enumitem}
+\usepackage{microtype}
+\usepackage{booktabs}
+\usepackage{titlesec}
+\usepackage{lmodern}
+
+\titleformat{\section}{\large\bfseries\color{black!85}}{\thesection.}{0.5em}{}
+\titleformat{\subsection}{\normalsize\bfseries\color{black!75}}{\thesubsection}{0.5em}{}
+
+\definecolor{uompurple}{HTML}{660099}
+\newcommand{\kw}[1]{\textcolor{uompurple}{\textbf{#1}}}
+
+\newcommand{\E}{\mathbb{E}}
+\newcommand{\T}{\mathcal{T}}
+\newcommand{\D}{\mathcal{D}}
+\newcommand{\F}{\mathcal{F}}
+\newcommand{\Sset}{\mathcal{S}}
+\newcommand{\X}{\mathcal{X}}
+\newcommand{\Y}{\mathcal{Y}}
+\newcommand{\Hyp}{\mathcal{H}}
+
+\theoremstyle{definition}
+\newtheorem{defn}{Definition}
+\newtheorem{claim}{Claim}
+
+\title{Supplementary Backup for the\\``Deep Double Descent'' Poster}
+\author{Ayush Kumar \quad Jacob Yip \quad Harshita Dassani \\[2pt]
+\small COMP34312 Mathematical Topics in Machine Learning, 2025--26}
+\date{}
+
+\begin{document}
+\maketitle
+\vspace{-2.5em}
+
+\begin{center}
+\textit{Internal study aid. Backs up every equation, reference, and claim on the poster, plus implication arguments for Q\&A.}
+\end{center}
+
+\hrule
+\vspace{0.6em}
+
+\tableofcontents
+\vspace{0.4em}
+\hrule
+
+% =====================================================================
+\section{Coursework proof requirement}
+% =====================================================================
+
+The coursework specification says that when a theorem or lemma number is selected as a suggested topic, its proof is expected to be part of the presentation. It also says that if a proof is presented, proofs of invoked results should also be presentable.
+
+Our poster does \emph{not} present a new theorem proof. It uses definitions, an algebraic identity from the notes, empirical findings from Nakkiran et al., and one informal hypothesis. Therefore the working standard for the group is:
+\begin{itemize}[leftmargin=1.2em]
+\item Every displayed equation must be explainable without notes.
+\item Each mathematical statement must be classified as a definition, identity, empirical observation, cited theorem, or hypothesis.
+\item We should not present Nakkiran et al.'s deep-net claim as a theorem. It is an empirically supported hypothesis.
+\item If we choose to mention a rigorous theorem, such as Mei \& Montanari's random-features result, we should state only the high-level content unless we are ready to discuss its assumptions.
+\end{itemize}
+
+% =====================================================================
+\section{Equation index}
+% =====================================================================
+
+Every equation on the poster, with its source and (where applicable) a one-step derivation. Notation matches the COMP34312 lecture notes.
+
+\subsection{Population risk \texorpdfstring{$R(f)$}{R(f)}}
+
+\noindent\textbf{Source.} Notes \S1.3, p.~11.
+
+\begin{defn}[Population risk]
+For data distribution $\D$ on $\X\times\Y$, a model $f:\X\to\Y$, and a non-negative loss $\ell:\Y\times\Y\to\mathbb{R}_{\ge 0}$,
+\[
+R(f) := \E_{(\bm{x},\bm{y})\sim\D}\bigl[\ell(\bm{y},f(\bm{x}))\bigr].
+\]
+\end{defn}
+
+\noindent\textbf{Why we use it.} It is the quantity any honest model wants to minimise but cannot directly compute (we don't know $\D$). Test error is a Monte-Carlo estimate of $R(f)$.
+
+\subsection{Empirical risk \texorpdfstring{$\widehat R(f,\Sset)$}{R-hat(f, S)}}
+
+\noindent\textbf{Source.} Notes \S1.3, p.~11.
+
+\begin{defn}[Empirical risk]
+For a sample $\Sset = \{(\bm{x}_i,\bm{y}_i)\}_{i=1}^{n}\sim\D^n$,
+\[
+\widehat R(f,\Sset) := \frac{1}{n}\sum_{i=1}^{n}\ell(\bm{y}_i,f(\bm{x}_i)).
+\]
+\end{defn}
+
+\noindent\textbf{Relation to $R(f)$.} For a \emph{fixed} $f$ independent of $\Sset$, $\E_{\Sset\sim\D^n}[\widehat R(f,\Sset)] = R(f)$ by linearity of expectation. The danger is that $f = \hat f$ depends on $\Sset$, so this unbiasedness fails.
+
+\subsection{Trained model \texorpdfstring{$\hat f$}{f-hat} and the four-model hierarchy}
+
+\noindent\textbf{Source.} Notes Defs 11--14, pp.~47.
+
+\begin{align*}
+\hat f &\leftarrow \mathcal{A}(\F;\Sset) && \text{(trained model: algorithm output on a finite sample)}\\
+f_{\mathrm{erm}} &:= \arg\min_{f\in\F}\widehat R(f,\Sset) && \text{(empirical risk minimiser in $\F$)}\\
+f^{*} &:= \arg\min_{f\in\F}R(f) && \text{(best-in-class with infinite data)}\\
+y^{*} &:= \arg\min_{f\in\Omega}R(f) && \text{(Bayes-optimal predictor in $\Omega\supseteq\F$)}
+\end{align*}
+
+\noindent\textbf{Increasing assumptions.} $\hat f \to f_{\mathrm{erm}}$ assumes a \emph{perfect optimiser}; $f_{\mathrm{erm}}\to f^{*}$ assumes \emph{infinite data}; $f^{*}\to y^{*}$ assumes the function class is unrestricted.
+
+\subsection{Excess-risk decomposition}
+
+\noindent\textbf{Source.} Notes \S5.1, Eq.~(73), p.~48.
+
+\begin{align}
+R(\hat f) - R(y^{*}) &= \bigl[R(\hat f) - R(f_{\mathrm{erm}})\bigr] + \bigl[R(f_{\mathrm{erm}}) - R(f^{*})\bigr] + \bigl[R(f^{*}) - R(y^{*})\bigr]\nonumber\\
+&= \underbrace{\text{optimisation}}_{\ge 0} + \underbrace{\text{estimation}}_{\ge 0} + \underbrace{\text{approximation}}_{\ge 0}. \label{eq:excess}
+\end{align}
+
+\noindent\textbf{Derivation.} Pure algebra: add and subtract $R(f_{\mathrm{erm}})$ and $R(f^{*})$ inside $R(\hat f) - R(y^{*})$. Each bracket is $\ge 0$ because each model in the chain $\hat f \to f_{\mathrm{erm}} \to f^{*} \to y^{*}$ is a worse minimiser than the next.
+
+\subsection{Bias--variance to approximation/estimation/optimisation bridge}
+
+\noindent\textbf{Source.} Notes \S5.1, p.~50, plus \S3.3 for the bias--variance identity.
+
+For squared loss with a fixed target, the bias--variance identity over random samples $\Sset$ is
+\[
+\E_{\Sset}\bigl[(y - \hat f(\bm{x}))^{2}\bigr] = \underbrace{\bigl(\E_{\Sset}[\hat f(\bm{x})] - y\bigr)^{2}}_{\text{bias}^2} + \underbrace{\E_{\Sset}\bigl[(\hat f(\bm{x}) - \E_{\Sset}[\hat f(\bm{x})])^{2}\bigr]}_{\text{variance}} + \sigma^{2}_{\text{noise}}.
+\]
+
+\noindent\textbf{Informal mapping to (\ref{eq:excess}).}
+\begin{align*}
+\text{bias}^{2}\;\;&\approx\;\;\text{approximation} + (\text{part of}) \text{ estimation},\\
+\text{variance}\;\;&\approx\;\;(\text{rest of}) \text{ estimation} + \text{ optimisation}.
+\end{align*}
+
+\noindent\textbf{Key point.} The bias--variance identity is a \emph{decomposition of squared error}, not a refutation of double descent. What changes in the modern regime is that ``variance'' (informally, sensitivity of $\hat f$ to $\Sset$) is no longer monotone in raw model size, because $\T$ controls which interpolant the optimiser picks.
+
+\subsection{Effective Model Complexity (EMC), Def.~1 of Nakkiran et al.~(2019)}
+
+\noindent\textbf{Source.} Nakkiran et al.\ (2019) \S2, Def.~1.
+
+\begin{defn}[Effective Model Complexity]
+A \kw{training procedure} $\T$ takes a labelled sample $\Sset = \{(\bm{x}_i,\bm{y}_i)\}_{i=1}^n$ and returns a classifier $\T(\Sset)$. For an error tolerance $\varepsilon>0$, the EMC of $\T$ on $\D$ is
+\[
+\mathrm{EMC}_{\D,\varepsilon}(\T) \;:=\; \max\bigl\{\,n\;\bigm|\;\E_{\Sset\sim\D^{n}}\bigl[\mathrm{Error}_{\Sset}(\T(\Sset))\bigr]\le\varepsilon\,\bigr\},
+\]
+where $\mathrm{Error}_{\Sset}(M) = \widehat R(M, \Sset)$ is the empirical error of model $M$ on $\Sset$.
+\end{defn}
+
+\noindent\textbf{Three things to internalise.}
+\begin{itemize}
+\item $\T$ is the \emph{whole training procedure}: architecture, optimiser, learning rate, epochs, augmentation, regularisation, label policy. Two procedures with the same architecture can have different EMCs.
+\item The expectation is over training samples, not test samples. EMC asks: \emph{how much data can the procedure absorb?}
+\item $\varepsilon$ is heuristic. The paper uses $\varepsilon = 0.1$. The qualitative phenomenon is robust to small perturbations of $\varepsilon$ but the critical-interval \emph{width} depends on it.
+\end{itemize}
+
+\subsection{Generalised Double Descent Hypothesis (Hyp.~1 of Nakkiran et al.)}
+
+\noindent\textbf{Source.} Nakkiran et al.\ (2019) \S2, Hypothesis 1 (informal).
+
+For ``natural'' $\D$, neural-network procedures $\T$, and small $\varepsilon$:
+\begin{itemize}
+\item If $\mathrm{EMC}_{\D,\varepsilon}(\T) \ll n$ (under-parameterised): any perturbation of $\T$ that increases EMC \emph{decreases} test error.
+\item If $\mathrm{EMC}_{\D,\varepsilon}(\T) \approx n$ (critically parameterised): the same perturbation \emph{may decrease or increase} test error.
+\item If $\mathrm{EMC}_{\D,\varepsilon}(\T) \gg n$ (over-parameterised): any perturbation that increases EMC \emph{decreases} test error.
+\end{itemize}
+
+\noindent\textbf{What ``hypothesis'' means here.} It is an empirical pattern that the paper validates across architectures and tasks, supplemented by linear-model analogues. It is \emph{not} a theorem about deep nets.
+
+\subsection{Linear-model rigorous result we cite}
+
+\noindent\textbf{Source.} Mei \& Montanari, \emph{Comm.\ Pure Appl.\ Math.} (2022).
+
+For random-features regression on $\mathbb{R}^d$ with $N$ features, $n$ samples, ridge $\lambda\to 0^+$, and an isotropic Gaussian model, the test risk has a peak at $N = n$. Formally, in the proportional asymptotic regime $n,d,N \to\infty$ with $N/n\to\psi_1$ and $d/n\to\psi_2$, the test risk admits a closed form (their Thm.~2) that diverges as $\psi_1\to 1$ when $\lambda\to 0$.
+
+This is the \emph{rigorous} backbone of the deep-net intuition: ``one interpolant is fragile; many interpolants give the optimiser room.''
+
+% =====================================================================
+\section{Reference index}
+% =====================================================================
+
+Every reference on the poster, with what we actually take from it.
+
+\renewcommand{\arraystretch}{1.18}
+\noindent\begin{tabular}{@{}p{4.4cm}p{4cm}p{6.5cm}@{}}
+\toprule
+Reference & Type & What we use from it \\
+\midrule
+Nakkiran et al.\ (2019), arXiv:1912.02292 & primary paper & Def.~1 (EMC), Hyp.~1, Figs.~1--3, mechanism intuition. \\
+Belkin, Hsu, Ma, Mandal (2019), \emph{PNAS} & precursor & First framing of model-wise double descent for general predictors; cited as the conceptual ancestor of Nakkiran. \\
+Zhang, Bengio, Hardt, Recht, Vinyals (2017), ICLR & precursor & Random-label experiments showing deep nets can memorise; motivates ``capacity $\ne$ parameter count.''  \\
+Mei \& Montanari (2022), \emph{CPAM} & rigorous backing & Closed-form test risk for random-features regression with peak at $N=n$. \\
+Bartlett, Long, Lugosi, Tsigler (2020), \emph{PNAS} & rigorous backing & Benign overfitting under min-norm interpolation in linear regression. \\
+Hastie, Tibshirani, Friedman (2009) & textbook & Classical bias--variance trade-off, U-curve. \\
+Krizhevsky et al.\ (2012); Huang et al.\ (2018) & motivation & Empirical ``larger models are better'' folklore that the paper interrogates. \\
+Brown \& Mukherjee, COMP34312 Notes 2026 & course & \S5.1 excess-risk decomposition (Eq.~73); \S5.3 introduction to double descent; notation page. \\
+\bottomrule
+\end{tabular}
+
+\medskip
+
+\noindent\textbf{Notes on how we cite.}
+\begin{itemize}[leftmargin=1.2em]
+\item We never cite a theorem we cannot state in one sentence under questioning.
+\item We never cite a paper as ``proving'' something it only conjectures (this is the trap with neural network papers in this area).
+\item Belkin and Mei \& Montanari are cited together because Belkin frames the phenomenon and Mei \& Montanari prove a tractable instance.
+\end{itemize}
+
+% =====================================================================
+\section{Critical-thinking reasoning chains}
+% =====================================================================
+
+Each chain takes a hypothetical perturbation and walks through its consequences using EMC and the hypothesis. These are the kinds of questions the marker is likely to ask, and answering them with a reasoned argument rather than memorised bullets is the rubric line 1b move.
+
+\subsection{Chain 1: ``What if we had $n/2$ training samples?''}
+
+\textbf{Setup.} Hold $\T$ fixed. Halve the sample count from $n$ to $n/2$.
+
+\textbf{Reasoning chain.}
+\begin{enumerate}[leftmargin=1.4em]
+\item EMC$_{\D,\varepsilon}(\T)$ is a property of $\T$ and $\D$, \emph{independent of the actual sample count we use}, so EMC is unchanged.
+\item What changes is the ratio $\mathrm{EMC}/n$, which doubles.
+\item If we were originally in the over-parameterised regime ($\mathrm{EMC} \gg n$), we are now \emph{further} into it. The sample-wise double-descent argument predicts a possible local improvement, but this competes with the ordinary cost of using fewer examples.
+\item If we were originally in the critical regime ($\mathrm{EMC}\approx n$), we may now move into the over-parameterised side. Test error could improve.
+\item If we were already in the under-parameterised regime ($\mathrm{EMC}\ll n$), halving $n$ probably makes things worse because variance grows like $1/n$.
+\end{enumerate}
+
+\textbf{Headline.} ``More data hurts'' is local; ``less data hurts'' is asymptotic. The two facts coexist because they refer to different regimes.
+
+\subsection{Chain 2: ``What if we trained for half as many epochs?''}
+
+\textbf{Setup.} Hold architecture, $\F$, and $n$ fixed. Define $\T_t$ = $\T$ with $t$ epochs. Move from $t$ to $t/2$.
+
+\textbf{Reasoning chain.}
+\begin{enumerate}[leftmargin=1.4em]
+\item In the paper's framing and experiments, EMC generally increases with training time because longer training gives the optimiser more opportunity to fit the sample. Strict monotonicity is a heuristic, not a theorem.
+\item Halving $t$ therefore usually \emph{decreases} EMC.
+\item Whether this helps or hurts depends on which side of $n$ we sit on.
+\item If we were over-parameterised, decreasing EMC moves us toward the critical regime, which is bad.
+\item If we were critically parameterised, decreasing EMC moves us into the under-parameterised regime, so the effect is ambiguous and test error could go either way.
+\item If we were under-parameterised, decreasing EMC further is just under-fitting, which is bad.
+\end{enumerate}
+
+\textbf{Headline.} Early stopping helps narrowly, in the band of ``medium-sized'' models that would otherwise pass through the epoch-wise peak.
+
+\subsection{Chain 3: ``What if we increased the label noise from 15\% to 30\%?''}
+
+\textbf{Reasoning chain.}
+\begin{enumerate}[leftmargin=1.4em]
+\item Label noise raises the entropy of the conditional $\D(\bm{y}\mid\bm{x})$. Achieving train error below $\varepsilon$ requires the model to memorise more idiosyncratic patterns.
+\item Effectively, the threshold ``how much data can $\T$ fit to within $\varepsilon$?'' falls. EMC drops.
+\item For the same $n$, falling EMC moves the system from over-parameterised toward critical.
+\item Additionally, near the critical regime, fitting more noise destroys global structure more aggressively. The peak height grows even if its location is the same.
+\end{enumerate}
+
+\textbf{Headline.} Label noise both \emph{shifts} the peak and \emph{amplifies} it, but does not \emph{cause} it (Fig.\ 4a of the paper shows the peak at 0\% noise too).
+
+\subsection{Chain 4: ``What if we added strong weight decay?''}
+
+\textbf{Reasoning chain.}
+\begin{enumerate}[leftmargin=1.4em]
+\item Weight decay shrinks the set of solutions $\T$ explores, so only low-norm interpolants are reachable.
+\item This \emph{reduces} EMC (some sample sizes that were fittable without decay are no longer fittable with it).
+\item In the over-parameterised regime, lower EMC at fixed $n$ moves us toward the critical regime, which is bad on its own.
+\item But weight decay also \emph{biases the optimiser} toward the same low-norm interpolant the over-parameterised regime relies on. So it can suppress the peak entirely.
+\end{enumerate}
+
+\textbf{Headline.} Weight decay does two things at once. The implicit-bias effect dominates empirically, which is why regularisation flattens double descent in practice (paper \S5).
+
+\subsection{Chain 5: ``What if we ensembled $K$ independent models?''}
+
+\textbf{Reasoning chain.}
+\begin{enumerate}[leftmargin=1.4em]
+\item Each individual model $\hat f_k$ is a noisy interpolant near the critical regime.
+\item Their average $\bar f = (1/K)\sum_k \hat f_k$ keeps the on-distribution prediction (where individual models agree) and cancels the high-variance off-distribution noise (where they disagree because they fit noise differently).
+\item This is exactly the bias--variance identity: variance of the average drops as $1/K$ if the models are uncorrelated.
+\item In double-descent terms: ensembling acts like an extra capacity boost that selects a better interpolant. Paper Fig.\ 28 shows ensembling flattens the peak.
+\end{enumerate}
+
+\textbf{Headline.} Ensembling is a clean experimental knockout argument that the peak is about \emph{which} interpolant gets picked, not about interpolation per se.
+
+\subsection{Chain 6: ``What if SGD is replaced by full-batch GD?''}
+
+\textbf{Reasoning chain.}
+\begin{enumerate}[leftmargin=1.4em]
+\item Full-batch GD has different implicit bias: it minimises training loss exactly along the gradient flow, with no stochastic averaging.
+\item In over-parameterised settings, full-batch GD on least-squares converges to the \emph{minimum-norm} solution among interpolants. This is the same as SGD asymptotically for linear models, but with less stochastic regularisation along the way.
+\item For deep nets, the implicit bias is poorly understood for both SGD and full-batch GD. Empirically, both show double descent (paper Fig.\ 6 compares).
+\item So Hypothesis 1 is robust to the SGD/GD distinction in practice, but the \emph{theoretical} mechanism (which interpolant gets picked) is more transparent for one than the other.
+\end{enumerate}
+
+\textbf{Headline.} The critical regime is defined by EMC vs $n$, not by the optimiser. The optimiser changes the height/width of the peak but not its existence.
+
+\subsection{Chain 7: ``What if the data distribution itself were noiseless and well-specified?''}
+
+\textbf{Reasoning chain.}
+\begin{enumerate}[leftmargin=1.4em]
+\item In the noiseless, perfectly specified case, there exists $f^{*}\in\F$ with $R(f^{*})=0$, so the approximation gap vanishes.
+\item The estimation gap is also driven down: every interpolant agrees with the true labels, so the choice among interpolants matters less.
+\item The optimisation gap can still produce some sensitivity, but it shrinks too.
+\item Prediction: the peak should \emph{shrink} but not necessarily disappear. Some peak survives if $\F$ is mis-specified relative to $\D$ even without label noise (paper Fig.\ 7 confirms this).
+\end{enumerate}
+
+\textbf{Headline.} Double descent is fundamentally about \emph{model mis-specification}, not just noisy labels. Eliminating noise narrows the peak; eliminating mis-specification too should remove it almost entirely.
+
+\subsection{Chain 8: ``What if we used a much larger architecture (width $> 100$)?''}
+
+\textbf{Reasoning chain.}
+\begin{enumerate}[leftmargin=1.4em]
+\item Increasing width generally raises EMC because the model class and the set of reachable fits become larger. For trained deep nets this is an empirical tendency, not a formal monotonicity theorem.
+\item For the heatmap experiment ($n = 50000$ on CIFAR-10 with 15\% label noise), EMC at width 64 is already $\gg n$ for sufficient training time.
+\item Going further past 64 just deepens the over-parameterised regime: test error continues to improve, but the marginal returns diminish (paper Fig.\ 4: test error plateaus past width 30 in the noiseless case).
+\item No second peak is expected because there is no second critical regime to cross.
+\end{enumerate}
+
+\textbf{Headline.} Once you are clearly beyond the threshold, scale gives you returns but not surprises. The drama is local to $\mathrm{EMC}\approx n$.
+
+% =====================================================================
+\section{Anti-claims with full justification}
+% =====================================================================
+
+The poster has a ``What we do not claim'' block. Each anti-claim is one bullet on the poster; here is the longer-form justification you would give if pressed.
+
+\subsection{``Bias--variance is wrong.'' \textbf{No.}}
+
+The bias--variance identity (\S1.5) is an algebraic identity for squared loss. It is a \emph{decomposition}, not a predictive theory. What is incomplete is the \emph{intuition} that came with it: that variance is monotone in raw model size and overwhelms test error past a threshold. That intuition assumes the empirical risk minimiser is unique; in over-parameterised settings, it is not, and the optimiser's choice among interpolants matters.
+
+\subsection{``Bigger / longer / more data is always better.'' \textbf{No.}}
+
+Each of these can be locally worse inside the critical interval. Hypothesis 1 says: the sign of the change depends on which regime you sit in. The asymptotic ``more is better'' statements remain true; the \emph{local non-monotonicity} is the new content.
+
+\subsection{``Label noise causes the peak.'' \textbf{Partially.}}
+
+Label noise \emph{amplifies} the peak (used in the headline experiments at 15\% noise) but does not cause it. Paper Figs.\ 4a and 7 show the peak (or a plateau that develops into a peak with added noise) even at 0\% label noise. The deeper cause is model mis-specification: in any setting where the model class cannot perfectly express the conditional $\D(\bm{y}\mid\bm{x})$, fitting the train set forces the model to memorise systematic discrepancy.
+
+\subsection{``Parameters $=$ capacity.'' \textbf{No.}}
+
+EMC depends on the whole training procedure $\T$. Two ResNet18s with identical parameter count can have very different EMCs depending on how long they are trained, what regularisation is used, and what augmentation is applied. The paper's Fig.\ 5 (data augmentation shifts the peak) is the cleanest single demonstration.
+
+\subsection{``EMC is a finished theory.'' \textbf{No.}}
+
+$\varepsilon$ is heuristic ($0.1$ in the paper). ``Sufficiently smaller / larger'' is informal. The width of the critical interval is empirical, not closed-form. There is no proven non-linear theorem of EMC for over-parameterised neural networks. The hypothesis is empirically validated across many settings, but a deductive theory matching the deep-net regime is open.
+
+% =====================================================================
+\section{Q\&A reasoning templates}
+% =====================================================================
+
+For each likely question, the template is: (a) restate the question precisely, (b) work from EMC/Hyp.~1 directly rather than memorised facts, (c) acknowledge uncertainty cleanly.
+
+\subsection{``Doesn't this just say `use early stopping'?''}
+
+\textit{Restate.} Are you arguing that the only practical takeaway is to early-stop?
+
+\textit{Reason.} Early stopping helps in the narrow band where the model would otherwise pass through the epoch-wise peak (Chain 2). For models much smaller than the threshold, training to completion is the right move. For models much larger than the threshold, training to completion is \emph{better} than early-stopping; that is the second descent. So the actual takeaway is regime-dependent: early stopping is one of several escape routes (Chains 4, 5).
+
+\subsection{``How do you compute EMC in practice?''}
+
+\textit{Restate.} How would I actually measure EMC for a given $\T$ on a given $\D$?
+
+\textit{Reason.} You sweep $n$ for a fixed $\T$ on samples drawn from $\D$, train to completion, measure mean train error, and find the largest $n$ for which mean train error $\le\varepsilon$. This is what the paper does implicitly when they sweep widths and epochs and look at where train error first hits zero. The value of EMC depends on $\varepsilon$, which is heuristic; the paper uses $0.1$. \kw{There is no closed form.}
+
+\subsection{``Why can the peak appear without label noise?''}
+
+\textit{Restate.} If label noise amplifies the peak, why doesn't no-noise give no-peak?
+
+\textit{Reason.} Chain 7. Model mis-specification is enough on its own. Real-world distributions $\D(\bm{y}\mid\bm{x})$ are rarely captured exactly by the model class $\F$, so fitting train labels exactly forces the model to memorise systematic discrepancy, which is the mechanism that label noise dramatises. Paper Figs.\ 4a (CIFAR-100, 0\% noise, peak present) and 7 (5-layer CNN, 0\% noise, peak present) confirm.
+
+\subsection{``Is this just an artifact of CIFAR-10 / ResNet18?''}
+
+\textit{Restate.} Could the result be specific to your headline experimental setup?
+
+\textit{Reason.} No, the paper sweeps the cross-product:
+\begin{itemize}[leftmargin=1.2em]
+\item \textbf{Datasets:} CIFAR-10, CIFAR-100, IWSLT'14 De--En, WMT'14 En--Fr.
+\item \textbf{Architectures:} ResNet18 (varying width), 5-layer CNN, 6-layer Transformer (varying $d_{\text{model}}$).
+\item \textbf{Optimisers:} Adam, SGD with $\sqrt{T}$-schedule.
+\item \textbf{Regularisation:} with and without data augmentation, with and without label smoothing, varied label noise levels.
+\end{itemize}
+The peak appears in essentially every cell of this matrix.
+
+\subsection{``Why isn't this a proof?''}
+
+\textit{Restate.} You called it a hypothesis. What is missing for it to be a theorem?
+
+\textit{Reason.} Three missing pieces.
+\begin{itemize}[leftmargin=1.2em]
+\item A principled choice of $\varepsilon$.
+\item A formal characterisation of ``sufficiently smaller / larger'', i.e.\ a function $\delta(\D,\T)$ that bounds the critical interval.
+\item A non-linear analogue of Mei \& Montanari's closed-form for deep networks.
+\end{itemize}
+None of these are known. The paper validates the hypothesis empirically across an enormous experimental matrix; this is a strong scientific claim but not a deductive one.
+
+% =====================================================================
+\section{Candidate poster additions after group review}
+% =====================================================================
+
+Do not add all of these automatically. The current poster is already dense. These are the highest-value additions if the group decides that the poster needs more explicit critical thinking or implications.
+
+\begin{enumerate}[leftmargin=1.4em]
+\item \textbf{More data has two effects.} Add one sentence to the practical implications block: ``More data gives information, but it also changes where the procedure sits relative to the interpolation threshold.'' This is the strongest candidate because it explains sample-wise double descent without sounding like ``data is bad.''
+\item \textbf{Noise amplifies but does not fully explain the peak.} Add one sentence to the limitations or critique block: ``Label noise raises the peak, but misspecification and optimisation also matter.'' This protects us from overclaiming.
+\item \textbf{Definition / identity / hypothesis labels.} Add tiny labels near the mathematical block: risk decomposition = identity; EMC = definition; generalised double descent = hypothesis. This would show mathematical discipline with very little space cost.
+\item \textbf{Practical risk-zone message.} If one implication sentence is needed: ``The dangerous region is not simply `large model'; it is $\mathrm{EMC}\approx n$, where validation, augmentation, regularisation, ensembling, or scaling away from the threshold matter most.''
+\end{enumerate}
+
+% =====================================================================
+\section{Reading order for group rehearsal}
+% =====================================================================
+
+For each group member, in this order:
+\begin{enumerate}[leftmargin=1.4em]
+\item Read \S1 (equation index) cover-to-cover. Re-derive each equation on a whiteboard.
+\item Read \S2 (reference index). Be able to say one sentence about each cited paper.
+\item Pick three of the eight chains in \S3 and walk through them aloud without notes.
+\item Read \S4 (anti-claims) and \S5 (Q\&A templates) before each rehearsal.
+\end{enumerate}
+
+\noindent\textbf{Hard constraint.} If pressed in Q\&A and unsure, say so. The rubric explicitly rewards honest uncertainty (point 4b: ``directly owning up not knowing the answer''). Never invent a theorem, paper, or experimental number on the fly.
+
+\end{document}
