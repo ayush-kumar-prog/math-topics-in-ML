@@ -197,28 +197,28 @@ Use only equations that compress meaning.
 
 Candidate equations:
 
-```tex
+$$
 R(f) = \mathbb{E}_{(x,y)}[\ell(y, f(x))]
-```
+$$
 
 Purpose: anchors population/test risk.
 
-```tex
+$$
 \widehat{R}(f) = \frac{1}{n}\sum_{i=1}^{n}\ell(y_i, f(x_i))
-```
+$$
 
 Purpose: anchors training/empirical risk.
 
-```tex
+$$
 \text{critical regime:}\quad \mathrm{EMC}(\mathcal{T}) \approx n
-```
+$$
 
-Purpose: gives the main paper lens. Here `\mathcal{T}` means the full training procedure, not just the architecture.
+Purpose: gives the main paper lens. Here $\mathcal{T}$ means the full training procedure, not just the architecture.
 
-```tex
+$$
 R(\hat f)-R(f^\star)
   \approx \text{optimization}+\text{estimation}+\text{approximation}
-```
+$$
 
 Purpose: connects to course notes without redoing the lecture.
 
