@@ -37,9 +37,9 @@
     $$
     \text{EMC}_{D, \epsilon}(T) := \max \left\{ n \mid \mathbb{E}_{S \sim D^n} [\text{Error}_S(T(S))] \le \epsilon \right\}
     $$
-    - The maximum number of training samples such that the model's training error is approximately $0$ ($\text{Error}_S(T(S))] \le \epsilon$)
+    - The maximum number of training samples such that the expected model's training error is approximately $0$ ($\mathbb{E}_{S \sim D^n} [\text{Error}_S(T(S))] \le \epsilon$)
     - Assume *more data hurt*
-    - TODO: To understand what it means better, e.g. why is EMC not infinitely large
+    - It is *maximum* because if you have more data, the model needs more epochs to achieve the same optimisation progress
 
 
 ## Resource
