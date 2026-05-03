@@ -3,7 +3,8 @@
 
 
 ## Note
-- 
+- Double descent is not the same as [Grokking](https://en.wikipedia.org/wiki/Grokking_(machine_learning))
+    - There is only one descent in grokking
 
 
 ## Double Descent
