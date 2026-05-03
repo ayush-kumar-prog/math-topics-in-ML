@@ -45,3 +45,4 @@
 
 ## Resource
 - [Main paper](https://iopscience.iop.org/article/10.1088/1742-5468/ac3a74/pdf)
+- [Wikipedia on Double Descent](https://en.wikipedia.org/wiki/Double_descent)
