@@ -28,7 +28,7 @@
     - Number of training samples $n$ is varied
     - Increasing $n$ reduces the area under the curve in the graph of test error against model complexity
         - Area of the curve can be thought as the total test error of all model complexities
-        - More data overall reduces model performance
+        - More data overall improves model performance
     - Increasing $n$ shifts the curve to the right in the graph of test error against model complexity
         - There is a region where for the same model complexity, the models trained with more data have a worse performance
     - Conclusion: more data hurt
