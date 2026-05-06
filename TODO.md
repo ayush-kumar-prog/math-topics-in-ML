@@ -6,3 +6,6 @@
 - [ ] Is EMC the capacity? Isn't it the maximum number of data samples so that expected training error is sufficiently small? 
 - [ ] Change the definition of $T$
     - A procedure that takes as input a set $S = {(x_1, y_1), ... , (x_n, y_n)}$ of labeled training samples + outputs a classifier mapping data to labels
+- [ ] What is "*the bright test ridge sits on the train interpolation curve, so the peak is at the threshold*"? 
+- [ ] What does it mean "*Could sample-wise be a finite-sample artifact*"? 
+- [ ] For "*Where this is rigorous: name Mei & Montanari(2022) Thm 2, Belkin et al. (2019), Bartlett et al. (2020)*", unless Harshita actually read them, otherwise it is not a good idea to mention them
