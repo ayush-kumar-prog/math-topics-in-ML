@@ -136,7 +136,7 @@
 \end{column}\hspace{0.01\linewidth}%
 \begin{column}{0.36\linewidth}
 \eyebrow{Thesis}
-{\color{uomgrey}\textbf{\normalsize For modern training procedures the population-risk curve exhibits \emph{two} descents,} separated by a sharp peak at the \kw{interpolation threshold} at which the procedure first fits the training set exactly.}\\[0.5ex]
+{\color{uomgrey}\textbf{\normalsize For modern training procedures the test-error curve exhibits \emph{two} descents,} separated by a sharp peak at the \kw{interpolation threshold} at which the procedure first fits the training set exactly.}\\[0.5ex]
 \eyebrow{Beyond Section 5.3}
 \small
 The lecture introduces the phenomenon and links it to implicit regularisation. We extend this by substituting \emph{parameter count} with \kw{Effective Model Complexity} (EMC) -- the largest train-set size on which the procedure \(\T\) still drives training error below \(\varepsilon\) -- and demonstrating that the second descent occurs \kw{model-wise}, \kw{epoch-wise}, and \kw{sample-wise}, unified under the \kw{Generalised Double Descent Hypothesis}.\\[0.5ex]
@@ -163,16 +163,16 @@ The lecture introduces the phenomenon and links it to implicit regularisation. W
 \begin{column}{0.325\linewidth}
 \begin{block}{\sectnum{2}Setting: the lecture decomposition we extend}
 Following the course notation (Notes \S\,5.1, Eqs.~68--73):
-\[\hat f \leftarrow \mathcal{A}(\F;\Sset),\;
+\[\hat f \leftarrow \mathcal{A}(f;\Sset),\;
   R(f) := \E_{\bm{xy}}[\ell(\bm{y},f(\bm{x}))],\;
-  \widehat R(f,\Sset) := \tfrac{1}{n}\sum_{i=1}^{n}\ell(\bm{y}_i,f(\bm{x}_i)).\]
+  \widehat R(f,\Sset) := \tfrac{1}{n}\sum_{i=1}^{n}\ell(\bm{y}_i,f(\bm{x}_i))\]
 \(\hat f\) is found by gradient descent (Notes \S\,3.4):
-\[\bm{\theta}_{t+1} \;=\; \bm{\theta}_t \;-\; \eta\,\nabla_{\bm{\theta}}\widehat R(f_{\bm{\theta}_t},\Sset).\]
+\[\bm{\theta}_{t+1} \;=\; \bm{\theta}_t \;-\; \eta\,\nabla_{\bm{\theta}}\widehat R(f_{\bm{\theta}_t},\Sset)\]
 The excess risk decomposes into three statistically meaningful gaps:
 \[\underbrace{R(\hat f) - R(y^{*})}_{\text{excess risk}}
   = \underbrace{R(\hat f) - R(f_{\mathrm{erm}})}_{\text{\color{accentteal}\textbf{optimisation}}}
   + \underbrace{R(f_{\mathrm{erm}}) - R(f^{*})}_{\text{\color{accentgold}\textbf{estimation}}}
-  + \underbrace{R(f^{*}) - R(y^{*})}_{\text{\color{accentblue}\textbf{approximation}}}.\]
+  + \underbrace{R(f^{*}) - R(y^{*})}_{\text{\color{accentblue}\textbf{approximation}}}\]
 The classical bias-variance trade-off bundles \emph{approximation + part of estimation} into \kw{bias} and the rest into \kw{variance}; \emph{incomplete}, not wrong. The \kw{paper's pivot:} treat the entire procedure \(\T\) -- architecture, optimiser, training time, regularisation, and label policy -- as the single object whose EMC matters.
 
 \vspace{0.2ex}
