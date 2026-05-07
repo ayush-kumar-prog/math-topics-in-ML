@@ -212,8 +212,8 @@ For ``natural'' \(\D\), neural-network procedures \(\T\), and small \(\varepsilo
 \justifying
 \vspace{0.2ex}
 \begin{itemize}\setlength\itemsep{0.2ex}
-\item Fixing \((\T,\F)\) and increasing \(n\) leaves the interpolation threshold in EMC space unchanged but shifts \(n\) relative to it; widths near the small-sample threshold are thereby displaced into the critical regime.
-\item The non-monotonicity is local: asymptotically, additional samples reduce excess risk.
+\item Fixing \((\T,f)\) and increasing \(n\) leaves the interpolation threshold in EMC space unchanged but shifts \(n\) relative to it; widths near the small-sample threshold are thereby displaced into the critical regime.
+\item The non-monotonicity is local: asymptotically, additional samples reduce empirical risk.
 \item \kw{Practical implication:} an \kw{ensemble of models trained on disjoint sub-samples} sits past each member's peak; averaging cancels member-specific interpolation noise (Fig.~28).
 \end{itemize}
 \end{block}
@@ -248,7 +248,7 @@ For ``natural'' \(\D\), neural-network procedures \(\T\), and small \(\varepsilo
 \end{itemize}
 \eyebrow{Setup + key numbers (paper \S\,4)}
 \footnotesize
-ResNet18, CIFAR-10, \kw{15\% label noise}, augmentation, Adam (lr 1e-4), 4k epochs. Sample-wise (Fig.~3): a \kw{4.5\(\times\) data increase} (4k\(\to\)18k) raises test loss for \(d_{\text{model}}\!\in\![50,100]\). Paper uses \kw{\(\varepsilon\!=\!0.1\)}.
+ResNet18, CIFAR-10, \kw{15\% label noise}, augmentation, Adam (lr 1e-4), 4k epochs. Sample-wise (Fig.~3): a \kw{4.5\(\times\) data increase} (4k\(\to\)18k) raises test loss for \(d_{\text{model}}\!\in\![0,200]\). Paper uses \kw{\(\varepsilon\!=\!0.1\)}.
 
 \vspace{0.3ex}
 \takeaway{The unifying variable is EMC: any modification of \(\T\) that moves EMC across \(n\) shifts the peak correspondingly.}
