@@ -1,0 +1,146 @@
+\documentclass[10pt,a4paper]{article}
+\usepackage[margin=1.6cm]{geometry}
+\usepackage{amsmath,amssymb,bm}
+\usepackage{xcolor}
+\usepackage{booktabs}
+\usepackage{titlesec}
+\usepackage{enumitem}
+\usepackage{microtype}
+\usepackage{lmodern}
+\usepackage[T1]{fontenc}
+\usepackage[hidelinks]{hyperref}
+\usepackage{tabularx}
+
+\definecolor{ayushblue}{HTML}{2D6CDF}
+\definecolor{jacobteal}{HTML}{087E8B}
+\definecolor{harshcoral}{HTML}{D1495B}
+\definecolor{uompurple}{HTML}{660099}
+
+\titleformat{\section}{\large\bfseries\color{uompurple}}{\thesection.}{0.5em}{}
+\titleformat{\subsection}{\normalsize\bfseries}{}{0.5em}{}
+\setlist[itemize]{leftmargin=1.2em,itemsep=0.1ex,topsep=0.2ex}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0.4ex}
+
+\title{\vspace{-1.4cm}Deep Double Descent --- Speaker Script}
+\author{COMP34312 poster, group: Ayush Kumar, Jacob Yip, Harshita Dassani}
+\date{}
+
+\newcommand{\spk}[2]{\textcolor{#1}{\textbf{#2}}}
+\newcommand{\block}[1]{\textcolor{uompurple}{\textbf{#1}}}
+\newcommand{\T}{\mathcal{T}}
+\newcommand{\F}{\mathcal{F}}
+
+\begin{document}
+\maketitle\vspace{-1.2cm}
+
+\section*{Talk plan: 5 min each, hand-offs at 5:00 and 10:00}
+
+\begin{tabularx}{\linewidth}{@{}p{1.3cm}p{2.4cm}X@{}}
+\toprule
+\textbf{Time} & \textbf{Speaker} & \textbf{Owns blocks}\\
+\midrule
+0:00--5:00 & \spk{ayushblue}{Ayush} & Header + O/P/A/C strip + 1.~Hero (U-curve) + 2.~Setting + 3.~Definition + Hypothesis\\
+5:00--10:00 & \spk{jacobteal}{Jacob} & 4.~Heatmap evidence + 5.~Sample-wise\\
+10:00--15:00 & \spk{harshcoral}{Harshita} & 6.~Mechanism + implication chain + 7.~Critical reflection + 8.~Practice \& open questions\\
+\bottomrule
+\end{tabularx}
+
+\textbf{Iron rule:} every speaker must answer Q\&A on every block. The marker grades collective understanding (rubric 4c).
+
+% =====================================================================
+\section{\spk{ayushblue}{Ayush --- setup and framing (0:00--5:00)}}
+
+\begin{tabularx}{\linewidth}{@{}p{1.6cm}p{3cm}X@{}}
+\toprule
+Time & Block & What to say\\
+\midrule
+0:00--0:30 & Header + O/P/A/C & Intro the team. Read O/P/A/C aloud verbatim. Close with: ``we extend the lecture's risk decomposition with one new measure.''\\
+0:30--2:00 & 1.~Hero (U-curve) & Walk Fig.~1 left to right: classical regime, critical regime (orange shading), modern regime. Dashed red curve = optimal early stopping. Hint at ``larger models are not always worse.''\\
+2:00--3:30 & 2.~Setting & Course notation \(R, \widehat R, f_{\mathrm{erm}}, f^*, y^*\). Excess-risk decomposition (read each underbrace). One sentence on bias--variance bundling.\\
+3:30--4:30 & 3.~Definition + Hypothesis & Read Definition 1 (EMC) from the boxed equation. Walk the three regime chips. Read the caveat box (``why this is a hypothesis, not a theorem'').\\
+4:30--5:00 & Hand-off & ``Jacob will now show this hypothesis holds across model size, training time, and sample count.''\\
+\bottomrule
+\end{tabularx}
+
+\textbf{Ambiguities to rehearse against:}
+\begin{itemize}
+\item \emph{Interpolation threshold} (a single point) vs \emph{critical regime} (an interval around it). Conflating them is the easiest mistake.
+\item \emph{Bias--variance vs approx/est/opt}: rehearse the bridge sentence verbatim, do not improvise. Both decompose the same excess risk; bias--variance bundles approximation + part of estimation into bias.
+\item \emph{What \(\T\) contains}: \(\T = (\F, \mathcal{A}, \text{epochs}, \text{regularisation}, \text{labels})\). Easy to forget the label policy.
+\end{itemize}
+
+\textbf{Likely Q\&A:}
+\begin{itemize}
+\item \emph{Why excess-risk decomposition not bias--variance?} Optimisation is a separate term; bias--variance can't see epoch-wise DD.
+\item \emph{What is \(\varepsilon\) and why is it heuristic?} Train-error tolerance for ``fit''. Paper uses 0.1. No principled choice; the qualitative phenomenon is robust to small perturbations of \(\varepsilon\); the critical-interval \emph{width} depends on it.
+\item \emph{Is EMC just parameter count?} No --- depends on the whole training procedure. Same architecture, longer training = bigger EMC.
+\item \emph{Why hypothesis not theorem?} \(\varepsilon\) heuristic; ``sufficiently smaller / larger'' informal; no closed form for the critical interval; deep-net mechanism is conjectured.
+\end{itemize}
+
+% =====================================================================
+\section{\spk{jacobteal}{Jacob --- evidence (5:00--10:00)}}
+
+\begin{tabularx}{\linewidth}{@{}p{1.6cm}p{3cm}X@{}}
+\toprule
+Time & Block & What to say\\
+\midrule
+5:00--7:30 & 4.~Heatmaps & Same axes for both. Horizontal slice = \emph{model-wise}. Vertical slice = \emph{epoch-wise}. Key alignment: bright test ridge (left panel) sits \emph{on} the train interpolation curve (right panel). Read the takeaway box.\\
+7:30--9:30 & 5.~Sample-wise & Fig.~3, IWSLT'14 Transformer. Light = 4k, dark = 18k. Red bars highlight the \(d_{\text{model}}\) band where 4.5\(\times\) more data \emph{raises} test loss. Local non-monotonicity, not asymptotic.\\
+9:30--10:00 & Hand-off & ``Harshita will explain the mechanism, our limits, and what this means for practice.''\\
+\bottomrule
+\end{tabularx}
+
+\textbf{Ambiguities to rehearse against:}
+\begin{itemize}
+\item \emph{Alignment vs causation.} ``The peak is at the threshold'' = alignment, not causation. The causal explanation is rigorous only for linear models (Mei \& Montanari 2022 Thm~2).
+\item \emph{4.5\(\times\) more data hurts only in a band} (\(d_{\text{model}} \approx 50\text{--}100\) on IWSLT). Not ``more data is bad.''
+\item \emph{Headline experiment uses 15\% label noise}, but the peak appears even at 0\% noise (Fig.~4a, Fig.~7). Mention proactively before being asked.
+\end{itemize}
+
+\textbf{Likely Q\&A:}
+\begin{itemize}
+\item \emph{Doesn't the heatmap rely on label noise?} No --- same shape at 0\% noise (Fig.~4a, Fig.~7). Noise just makes it more visible.
+\item \emph{Why log scale on epochs?} Behaviour spans 4 orders of magnitude.
+\item \emph{Could sample-wise be a finite-sample artifact?} No --- the paper sweeps 4k\(\to\)18k as a deliberate manipulation; the local hurt persists across multiple width values.
+\item \emph{Does this contradict ``more data is better''?} No --- asymptotically more data wins. The local hurt is at fixed \((\T, \F)\) with \(n\) moving relative to a fixed threshold.
+\end{itemize}
+
+% =====================================================================
+\section{\spk{harshcoral}{Harshita --- mechanism, critique, implications (10:00--15:00)}}
+
+\begin{tabularx}{\linewidth}{@{}p{1.6cm}p{3cm}X@{}}
+\toprule
+Time & Block & What to say\\
+\midrule
+10:00--12:00 & 6.~Mechanism + implication chain & Critically param: one fragile interpolant. Over-param: many interpolants + SGD's \emph{implicit bias} toward small-norm. Where this is rigorous: name Mei \& Montanari (2022) Thm~2, Belkin et al.\ (2019), Bartlett et al.\ (2020). Walk the implication chain: smaller \(n\) \(\Rightarrow\) EMC/\(n\) rises \(\Rightarrow\) ensemble of small-data models stays past the per-member peak.\\
+12:00--13:30 & 7.~Critical reflection & Walk the four anti-claims. ``Bias--variance is not wrong, it is incomplete. Bigger is not always better. Label noise amplifies but doesn't cause. EMC is heuristic.''\\
+13:30--14:30 & 8.~Practice + open & Validate. Per-model escapes (weight decay, early stopping, scale). Aggregate escape (ensembling). Free escape (data augmentation). Three open questions.\\
+14:30--15:00 & Close + Q\&A & Read the takeaway box. Open the floor.\\
+\bottomrule
+\end{tabularx}
+
+\textbf{Ambiguities to rehearse against:}
+\begin{itemize}
+\item \emph{SGD's implicit bias} is proven for linear regression (min-norm interpolant). For deep nets it is intuition + partial NTK results. Always say ``proven for linear, conjectured for deep.''
+\item \emph{Anti-claim order}: most-to-least-damaging. Do not reshuffle under pressure.
+\item \emph{Ensembling-as-DD-escape}: each ensemble member is over-parameterised relative to its own small \(n\), so each sits past its own per-member peak; averaging cancels idiosyncratic interpolants. Paper Fig.~28.
+\end{itemize}
+
+\textbf{Likely Q\&A:}
+\begin{itemize}
+\item \emph{Doesn't the mechanism amount to ``the optimiser is magic''?} No --- for linear models it is a theorem (min-norm interpolant). For deep nets it is a conjecture. We flag this clearly.
+\item \emph{Is ``ensemble of small-data models'' your idea or in the paper?} The component facts (DD per member, ensembling flattens the peak) are in the paper (Fig.~28). The synthesis (deliberately use small slices to keep each member over-parameterised) is our framing.
+\item \emph{Should I just always ensemble?} No --- ensembling is one of four escapes; the right one depends on compute and data budget.
+\item \emph{What is the most important open problem?} A non-linear EMC theorem. Without it we cannot \emph{predict} where the peak appears for a new architecture.
+\end{itemize}
+
+% =====================================================================
+\section{Universal handling for ``I don't know''}
+
+\textit{``That's a good question --- I don't know the precise answer, but reasoning from definitions: [\,explain from EMC and Hypothesis 1\,]. If you have a reference in mind I'd love to read it.''}
+
+Never invent a theorem, paper, or experimental number on the fly. Rubric line 4b explicitly rewards honest uncertainty.
+
+\end{document}
