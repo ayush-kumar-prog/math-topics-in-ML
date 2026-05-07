@@ -248,7 +248,7 @@ For ``natural'' \(\D\), neural-network procedures \(\T\), and small \(\varepsilo
 \end{itemize}
 \eyebrow{Setup + key numbers (paper \S\,4)}
 \footnotesize
-ResNet18, CIFAR-10, \kw{15\% label noise}, augmentation, Adam (lr 1e-4), 4k epochs. Pattern identical under SGD, on CIFAR-100, and at \kw{0\% noise} (Fig.~4a). Sample-wise (Fig.~3): a \kw{4.5\(\times\) data increase} (4k\(\to\)18k) raises test loss for \(d_{\text{model}}\!\in\![50,100]\). Paper uses \kw{\(\varepsilon\!=\!0.1\)}.
+ResNet18, CIFAR-10, \kw{15\% label noise}, augmentation, Adam (lr 1e-4), 4k epochs. Sample-wise (Fig.~3): a \kw{4.5\(\times\) data increase} (4k\(\to\)18k) raises test loss for \(d_{\text{model}}\!\in\![50,100]\). Paper uses \kw{\(\varepsilon\!=\!0.1\)}.
 
 \vspace{0.3ex}
 \takeaway{The unifying variable is EMC: any modification of \(\T\) that moves EMC across \(n\) shifts the peak correspondingly.}
