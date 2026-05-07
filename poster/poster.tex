@@ -173,7 +173,7 @@ The excess risk decomposes into three statistically meaningful gaps:
   = \underbrace{R(\hat f) - R(f_{\mathrm{erm}})}_{\text{\color{accentteal}\textbf{optimisation}}}
   + \underbrace{R(f_{\mathrm{erm}}) - R(f^{*})}_{\text{\color{accentgold}\textbf{estimation}}}
   + \underbrace{R(f^{*}) - R(y^{*})}_{\text{\color{accentblue}\textbf{approximation}}}\]
-The classical bias-variance trade-off bundles \emph{approximation + part of estimation} into \kw{bias} and the rest into \kw{variance}; \emph{incomplete}, not wrong. The \kw{paper's pivot:} treat the entire procedure \(\T\) -- architecture, optimiser, training time, regularisation, and label policy -- as the single object whose EMC matters.
+The classical bias-variance trade-off bundles \emph{approximation + part of estimation} into \kw{bias} and the rest into \kw{variance}; \emph{incomplete}, not wrong. The \kw{paper's pivot:} treat the entire procedure \(\T\) -- the data-to-classifier procedure parameterised by $\F$ optimiser, training time, regularisation, and label policy -- as the single object whose EMC matters.
 
 \vspace{0.2ex}
 \eyebrow{Term-by-term behaviour at the peak}
@@ -188,7 +188,7 @@ The classical bias-variance trade-off bundles \emph{approximation + part of esti
 \eyebrow{Definition 1: Effective Model Complexity}
 A \kw{training procedure} \(\T\) maps any labelled train set \(S = \{(\bm{x}_i,\bm{y}_i)\}_{i=1}^{n}\) to a classifier \(\T(S)\). For an error tolerance \(\varepsilon>0\),
 \[\boxed{\;\mathrm{EMC}_{\D,\varepsilon}(\T)\;:=\;\max\bigl\{\,n\;\bigm|\;\E_{S\sim\D^{n}}\bigl[\mathrm{Error}_{S}(\T(S))\bigr]\le\varepsilon\,\bigr\}\;}\]
-i.e.\ the largest sample size on which \(\T\) drives train error below \(\varepsilon\). Note that \(\mathrm{EMC}\) depends on the optimiser, training time, augmentation, and labels, not solely on the architecture.
+i.e.\ the largest sample size on which \(\T\) drives train error below \(\varepsilon\). Note that \(\mathrm{EMC}\) depends on the optimiser, training time, augmentation, and labels.
 
 \vspace{0.3ex}
 \eyebrow{Hypothesis 1: Generalised Double Descent}
